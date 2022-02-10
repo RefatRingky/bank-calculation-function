@@ -1,49 +1,48 @@
-// 1.check the deposite button is clickable or not
-   document.getElementById('deposite-button').addEventListener('click',function () {
-    // when we give any input wheather the input field work or nor
-    const depositInput = document.getElementById('deposite-input');
-    const depositAmountText = depositInput.value;
-    const depositAmount = parseFloat(depositAmountText);
-    // console.log(depositAmount);
+function getInputValue(inputId) {
+    const inputField = document.getElementById(inputId);
+    const inputAmountText = inputField.value;
+    const inputAmount = parseFloat(inputAmountText);
+    inputField.value ='';
+    return inputAmount;
+}
 
-    // wheather the input value show the deposite total
-    const depositTotal = document.getElementById('deposite-total');
-    const depositTotalText = depositTotal.innerText;
-    const previousDepositTotal = parseFloat(depositTotalText);
-    depositTotal.innerText = previousDepositTotal +depositAmount;
-    // console.log(depositTotalText);
-    // updated balance
+function updateTotalField(totalFieldId,amount) {
+    const totalField = document.getElementById(totalFieldId);
+    const totalText = totalField.innerText;
+    const previousTotal = parseFloat(totalText);
+    totalField.innerText = previousTotal + amount; 
+}
+
+function updateBalance(depositAmount,isAdd) {
     const balanceTotal = document.getElementById('balance-total');
     const balanceTotalText = balanceTotal.innerText;
     const previousBalanceTotal = parseFloat(balanceTotalText);
-    balanceTotal.innerText  = previousBalanceTotal+depositAmount;
-    // clear input field
-    depositInput.value ='';
+    if (isAdd == true) {
+        balanceTotal.innerText  = previousBalanceTotal+depositAmount;
+    }
+    else{
+        balanceTotal.innerText  = previousBalanceTotal-depositAmount;
+    }
+   
+}
 
+    document.getElementById('deposite-button').addEventListener('click',function () {
+    const depositAmount =getInputValue('deposite-input');
 
+    //    deposite total amount
+      updateTotalField('deposite-total',depositAmount);
+
+    //   for update balance for deposite
+        updateBalance(depositAmount,true);
 })
 
-// withdraw section 
+    // withdraw section 
     document.getElementById('withdraw-button').addEventListener('click',function () {
-    // when we give any input wheather the input field work or nor
-    const withdrawInput = document.getElementById('withdraw-input');
-    const withdrawAmountText = withdrawInput.value;
-    const withdrawAmount = parseFloat(withdrawAmountText);
-    // console.log(depositAmount);
+    const withdrawAmount = getInputValue('withdraw-input');
+    // total withdraw amount
+    updateTotalField('withdraw-total',withdrawAmount);
 
-    // wheather the input value show the deposite total
-    const withdrawTotal = document.getElementById('withdraw-total');
-    const withdrawTotalText = withdrawTotal.innerText;
-    const previousWithdrawTotal = parseFloat(withdrawTotalText);
-    withdrawTotal.innerText = previousWithdrawTotal + withdrawAmount;
-    // console.log(depositTotalText);
-    // updated balance
-    const balanceTotal = document.getElementById('balance-total');
-    const balanceTotalText = balanceTotal.innerText;
-    const previousBalanceTotal = parseFloat(balanceTotalText);
-    balanceTotal.innerText  = previousBalanceTotal - withdrawAmount;
-    // clear input field
-    withdrawInput.value ='';
-
+    // for update balance for withdraw
+    updateBalance(withdrawAmount,false);
 
 })
